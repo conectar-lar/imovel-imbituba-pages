@@ -13,7 +13,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Casa na Vila Nova · R$ 520.000 · Imbituba/SC">
 <meta property="og:description" content="3 quartos, 110m² construídos, a 800m da Praia da Vila.">
-<meta property="og:image" content="{{OG_IMAGE_URL}}">
+<meta property="og:image" content="images/null/0.webp">
 
 <style>
   :root{
@@ -326,15 +326,10 @@
   <!-- ============ GALERIA ============ -->
   <div class="gallery-wrap">
     <div class="gallery" id="gallery">
-      <!-- n8n gera um <div class="gallery-slide"><img loading="lazy" src="..."></div>
-           para cada foto do imóvel. Placeholders abaixo simulam 4 fotos. -->
-      <div class="gallery-slide placeholder"><span>Foto 1 · fachada</span></div>
-      <div class="gallery-slide placeholder"><span>Foto 2 · sala</span></div>
-      <div class="gallery-slide placeholder"><span>Foto 3 · quartos</span></div>
-      <div class="gallery-slide placeholder"><span>Foto 4 · área externa</span></div>
+      <!-- preenchido via JS a partir de PROPERTY_DATA.photos no carregamento -->
     </div>
 
-    <div class="gallery-tag">IM-007</div>
+    <div class="gallery-tag" id="galleryTag">IM-007</div>
     <div class="photo-count" id="photoCount">1 / 4</div>
 
     <div class="tide-gauge" id="tideGauge">
@@ -344,32 +339,32 @@
 
   <!-- ============ CONTEÚDO ============ -->
   <div class="content">
-    <div class="eyebrow">Casa · Vila Nova</div>
-    <h1>Rua do Campo, 33</h1>
-    <div class="location">Vila Nova — Imbituba/SC</div>
-    <div class="price">R$ 520.000</div>
+    <div class="eyebrow" id="eyebrow">Casa · Vila Nova</div>
+    <h1 id="address">Rua do Campo, 33</h1>
+    <div class="location" id="location">Vila Nova — Imbituba/SC</div>
+    <div class="price" id="price">R$ 520.000</div>
   </div>
 
   <div class="specs">
     <div class="spec">
-      <span class="spec-value">3</span>
+      <span class="spec-value" id="specQuartos">3</span>
       <span class="spec-label">Quartos</span>
     </div>
     <div class="spec">
-      <span class="spec-value">110m²</span>
+      <span class="spec-value" id="specArea">110m²</span>
       <span class="spec-label">Construídos</span>
     </div>
     <div class="spec">
-      <span class="spec-value">800m</span>
-      <span class="spec-label">Praia da Vila</span>
+      <span class="spec-value" id="specBanheiros">1</span>
+      <span class="spec-label">Banheiros</span>
     </div>
   </div>
 
-  <div class="distance-note">A 8 minutos a pé da Praia da Vila</div>
+  <div class="distance-note" id="highlightNote">A 8 minutos a pé da Praia da Vila</div>
 
   <div class="description">
     <h2>Sobre o imóvel</h2>
-    <p>
+    <p id="descricaoText"#�
       Casa térrea de 3 quartos na Vila Nova, a poucos minutos da Praia da Vila.
       Construção sólida, com boa ventilação e área externa aproveitável.
       Bairro residencial e tranquilo, próximo ao comércio local.
@@ -387,25 +382,53 @@
 </div>
 
 <script>
+  // ===========================================================
+  // BLOCO DE DADOS — o n8n substitui este objeto antes do commit
+  // no GitHub (node "Code in JavaScript"). O JS abaixo usa esses
+  // dados para preencher a pagina em tempo de carregamento.
   // ============================================================
-  // BLOCO DE DADOS — é este objeto que o n8n substitui antes do
-  // build (Function node → JSON.stringify → replace no HTML antes
-  // do commit no GitHub). Em produção, todo o conteúdo estático
-  // acima (specs, preço, descrição) também vem daqui — deixei
-  // hardcoded no HTML só pra essa prévia ficar legível.
-  // ============================================================
-  const PROPERTY_DATA = {
-    id: "IM-007",
-    photos: [
-      { url: null, alt: "Fachada da casa" },
-      { url: null, alt: "Sala de estar" },
-      { url: null, alt: "Quarto principal" },
-      { url: null, alt: "Área externa" }
-    ],
-    whatsappNumber: "5548999999999",
-    whatsappMessage: "Olá! Vi o imóvel IM-007 (Rua do Campo, 33 - Vila Nova) e quero saber mais.",
-    mapsUrl: "https://www.google.com/maps/search/?api=1&query=-28.2400,-48.6700"
-  };
+  const PROPERTY_DATA = {"id":null,"title":null,"eyebrow":"","address":"","location":"","priceLabel":"","quartos":"","areaLabel":"","banheiros":"","descricao":"","diferenciais":"","photos":[],"whatsappNumber":"5548999999999","whatsappMessage":"","mapsUrl":"#"};
+
+  document.getElementById('galleryTag').textContent = PROPERTY_DATA.id || '';
+  document.getElementById('eyebrow').textContent = PROPERTY_DATA.eyebrow;
+  document.getElementById('address').textContent = PROPERTY_DATA.address;
+  document.getElementById('location').textContent = PROPERTY_DATA.location;
+  document.getElementById('price').textContent = PROPERTY_DATA.priceLabel;
+  document.getElementById('specQuartos').textContent = PROPERTY_DATA.quartos;
+  document.getElementById('specArea').textContent = PROPERTY_DATA.areaLabel;
+  document.getElementById('specBanheiros').textContent = PROPERTY_DATA.banheiros;
+  document.getElementById('descricaoText').textContent = PROPERTY_DATA.descricao;
+
+  const highlightEl = document.getElementById('highlightNote');
+  if (PROPERTY_DATA.diferenciais) {
+    highlightEl.textContent = PROPERTY_DATA.diferenciais;
+  } else {
+    highlightEl.style.display = 'none';
+  }
+
+  // -------- monta a galeria a partir das fotos reais --------
+  const galleryEl = document.getElementById('gallery');
+  const photosToRender = PROPERTY_DATA.photos && PROPERTY_DATA.photos.length
+    ? PROPERTY_DATA.photos
+    : [{ url: '', alt: 'Sem foto disponivel' }];
+
+  photosToRender.forEach((photo) => {
+    const slide = document.createElement('div');
+    slide.className = 'gallery-slide';
+    if (photo.url) {
+      const img = document.createElement('img');
+      img.loading = 'lazy';
+      img.src = photo.url;
+      img.alt = photo.alt || '';
+      slide.appendChild(img);
+    } else {
+      slide.classList.add('placeholder');
+      const span = document.createElement('span');
+      span.textContent = photo.alt || 'Sem foto';
+      slide.appendChild(span);
+    }
+    galleryEl.appendChild(slide);
+  });
 
   // -------- monta a régua de maré conforme o nº real de fotos --------
   const gauge = document.getElementById('tideGauge');
@@ -421,7 +444,7 @@
 
   const ticks = gauge.querySelectorAll('.tide-tick');
   const countEl = document.getElementById('photoCount');
-  const galleryEl = document.getElementById('gallery');
+  countEl.textContent = `1 / ${total}`;
 
   galleryEl.addEventListener('scroll', () => {
     const idx = Math.round(galleryEl.scrollLeft / galleryEl.clientWidth);
@@ -439,6 +462,4 @@
   // -------- link do mapa --------
   document.getElementById('mapLink').href = PROPERTY_DATA.mapsUrl;
 </script>
-
-</body>
-</html>
+</body></html>
