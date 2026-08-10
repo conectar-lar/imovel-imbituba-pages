@@ -11,9 +11,12 @@
      hospedada no Cloudflare Pages)
      ============================================================ -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="Casa · Vila Nova · R$ 520.000 · Imbituba/SC">
-<meta property="og:description" content="3 quartos, 350m² construidos.">
-<meta property="og:image" content="https://imovel-imbituba-pages.pages.dev/images/IM-007/attQWGH7KLIccBRwz.webp">
+<meta property="og:title" content="IM-007 - Casa">
+<meta property="og:description" content="Rua do Campo, 33 - Vila Nova · 3 quartos, área construída de 350m² · R$ 520.000">
+<meta property="og:image" content="https://imovel-imbituba-pages.pages.dev/images/IM-007/attQWGH7KLIccBRwz.jpg?v=1786400666588">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/jpeg">
     <meta property="og:url" content="https://imovel-imbituba-pages.pages.dev/IM-007.html">
 
 <style>
@@ -352,20 +355,20 @@
       <span class="spec-label">Quartos</span>
     </div>
     <div class="spec">
-      <span class="spec-value" id="specArea">110m²</span>
+      <span class="spec-value" id="specArea">350m²</span>
       <span class="spec-label">Construídos</span>
     </div>
     <div class="spec">
-      <span class="spec-value" id="specBanheiros">1</span>
+      <span class="spec-value" id="specBanheiros">2</span>
       <span class="spec-label">Banheiros</span>
     </div>
   </div>
 
-  <div class="distance-note" id="highlightNote">A 8 minutos a pé da Praia da Vila</div>
+  <div class="distance-note" id="highlightNote" style="display:none"></div>
 
   <div class="description">
     <h2>Sobre o imóvel</h2>
-    <p id="descricaoText">Carregando descrição…</p>
+    <p id="descricaoText">Casa aconchegante no bairro Vila Nova, a poucos passos da Praia da Vila. Com 3 quartos e 2 banheiros, área construída de 110m² em um terreno de 350m², é ideal para quem busca tranquilidade e proximidade com o mar. [TEXTO DE TESTE - gerado como placeholder para validação do pipeline]</p>
   </div>
 
   <a class="map-link" href="#" id="mapLink">Ver localização no mapa →</a>
@@ -384,7 +387,7 @@
   // no GitHub (node "Code in JavaScript"). O JS abaixo usa esses
   // dados para preencher a pagina em tempo de carregamento.
   // ============================================================
-  const PROPERTY_DATA = {"id":"IM-007","title":"IM-007 · Casa em Vila Nova · Imbituba","eyebrow":"Casa · Vila Nova","address":"Rua do Campo, 33","location":"Vila Nova — Imbituba/SC","priceLabel":"R$ 520.000","quartos":"3","areaLabel":"350m²","banheiros":"2","descricao":"Casa aconchegante no bairro Vila Nova, a poucos passos da Praia da Vila. Com 3 quartos e 2 banheiros, área construída de 110m² em um terreno de 350m², é ideal para quem busca tranquilidade e proximidade com o mar. [TEXTO DE TESTE - gerado como placeholder para validação do pipeline]","diferenciais":"","photos":[{"url":"images/IM-007/attQWGH7KLIccBRwz.webp","alt":"Casa em Vila Nova"},{"url":"images/IM-007/att8sMuDA2HlSttmH.webp","alt":"Casa em Vila Nova"},{"url":"images/IM-007/attZXbApFFzXt0t6Y.webp","alt":"Casa em Vila Nova"},{"url":"images/IM-007/attwXwE5KMiaC0NvP.webp","alt":"Casa em Vila Nova"}],"whatsappNumber":"5548999999999","whatsappMessage":"Ola! Vi o imovel Casa em Vila Nova (IM-007) e quero saber mais.","mapsUrl":"#"};
+  const PROPERTY_DATA = {"id":"IM-007","title":"IM-007 · Casa em Vila Nova · Imbituba","eyebrow":"Casa · Vila Nova","address":"Rua do Campo, 33","location":"Vila Nova — Imbituba/SC","priceLabel":"R$ 520.000","quartos":"3","areaLabel":"350m²","banheiros":"2","descricao":"Casa aconchegante no bairro Vila Nova, a poucos passos da Praia da Vila. Com 3 quartos e 2 banheiros, área construída de 110m² em um terreno de 350m², é ideal para quem busca tranquilidade e proximidade com o mar. [TEXTO DE TESTE - gerado como placeholder para validação do pipeline]","diferenciais":"","photos":[{"url":"images/IM-007/attQWGH7KLIccBRwz.jpg","alt":"Casa em Vila Nova"},{"url":"images/IM-007/att8sMuDA2HlSttmH.jpg","alt":"Casa em Vila Nova"},{"url":"images/IM-007/attZXbApFFzXt0t6Y.jpg","alt":"Casa em Vila Nova"},{"url":"images/IM-007/attwXwE5KMiaC0NvP.jpg","alt":"Casa em Vila Nova"}],"whatsappNumber":"5548999999999","whatsappMessage":"Ola! Vi o imovel Casa em Vila Nova (IM-007) e quero saber mais.","mapsUrl":"#"};
 
   document.getElementById('galleryTag').textContent = PROPERTY_DATA.id || '';
   document.getElementById('eyebrow').textContent = PROPERTY_DATA.eyebrow;
