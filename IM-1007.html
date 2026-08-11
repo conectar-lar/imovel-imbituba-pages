@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>IM-1007 · Casa em Paes Leme · Imbituba</title>
+
+<!-- ============================================================
+     OPEN GRAPH — é isto que gera o preview automático no WhatsApp
+     (n8n deve preencher og:image com a URL da 1ª foto já em WebP
+     hospedada no Cloudflare Pages)
+     ============================================================ -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="IM-1007 - Casa">
+<meta property="og:image" content="https://imovel-imbituba-pages.pages.dev/images/IM-1007/atttYoihl0Jcs6o2S.jpg?v=1786477096394">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:url" content="https://imovel-imbituba-pages.pages.dev/IM-1007.html">
+
+<style>
+  :root{
+    --ocean-deep:  #0F2530;
+    --ocean:       #1B3A4B;
+    --sand:        #E8DCC8;
+    --foam:        #F7F4EE;
+    --clay:        #A8502D;
+    --clay-dim:    #8A4326;
+    --seaweed:     #56705F;
+    --ink:         #14232B;
+    --ink-soft:    rgba(20,35,43,0.62);
+    --hairline:    rgba(20,35,43,0.12);
+
+    --display: "Ibarra Real Nova", Georgia, serif;
+    --body:    "Karla", -apple-system, sans-serif;
+    --mono:    "IBM Plex Mono", "SF Mono", monospace;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  @media (prefers-reduced-motion: no-preference){
+    html{ scroll-behavior:smooth; }
+  }
+
+  body{
+    background: var(--foam);
+    color: var(--ink);
+    font-family: var(--body);
+    line-height: 1.5;
+    padding-bottom: 84px; /* espaço pro CTA fixo */
+  }
+
+  .page{
+    max-width: 560px;
+    margin: 0 auto;
+    background: var(--foam);
+    min-height: 100vh;
+  }
+
+  /* ============ GALERIA ============ */
+
+  .gallery-wrap{
+    position: relative;
+    background: var(--ocean-deep);
+  }
+
+  .gallery{
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    aspect-ratio: 4 / 3;
+    scrollbar-width: none;
+  }
+  .gallery::-webkit-scrollbar{ display:none; }
+
+  .gallery-slide{
+    flex: 0 0 100%;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    position: relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+
+  .gallery-slide img{
+    width:100%;
+    height:100%;
+    object-fit: cover;
+    display:block;
+  }
+
+  /* placeholder visual até o n8n injetar as fotos reais */
+  .gallery-slide.placeholder{
+    background:
+      linear-gradient(180deg, rgba(255,255,255,0.06), transparent 40%),
+      repeating-linear-gradient(135deg, var(--ocean) 0px, var(--ocean) 2px, var(--ocean-deep) 2px, var(--ocean-deep) 26px);
+  }
+  .gallery-slide.placeholder span{
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: rgba(247,244,238,0.55);
+    border: 1px solid rgba(247,244,238,0.3);
+    padding: 4px 10px;
+    border-radius: 2px;
+    text-transform: uppercase;
+  }
+
+  .gallery-tag{
+    position:absolute;
+    top:14px; left:14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--foam);
+    background: rgba(15,37,48,0.55);
+    backdrop-filter: blur(4px);
+    padding: 5px 10px;
+    border-radius: 3px;
+    z-index: 2;
+  }
+
+  .photo-count{
+    position:absolute;
+    top:14px; right:14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--foam);
+    background: rgba(15,37,48,0.55);
+    backdrop-filter: blur(4px);
+    padding: 5px 9px;
+    border-radius: 3px;
+    z-index: 2;
+  }
+
+  /* -------- "régua de maré": indicador de progresso da rolagem -------- */
+  .tide-gauge{
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 26px;
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+    padding: 0 14px 8px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .tide-tick{
+    flex: 1;
+    height: 3px;
+    background: rgba(247,244,238,0.28);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+  }
+  .tide-tick::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background: var(--foam);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+  .tide-tick.filled::after{ transform: scaleX(1); }
+  .tide-tick.active{ height: 6px; }
+
+  /* ============ CONTEÚDO ============ */
+
+  .content{
+    padding: 20px 20px 8px;
+  }
+
+  .eyebrow{
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--seaweed);
+    margin-bottom: 6px;
+  }
+
+  h1{
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 1.15;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+
+  .location{
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+
+  .price{
+    font-family: var(--mono);
+    font-size: 22px;
+    color: var(--clay-dim);
+    letter-spacing: -0.01em;
+  }
+
+  /* -------- faixa de specs, estilo régua -------- */
+  .specs{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    margin: 20px 20px 4px;
+    border-top: 1px solid var(--hairline);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .spec{
+    padding: 14px 8px;
+    text-align: center;
+    border-right: 1px solid var(--hairline);
+  }
+  .spec:last-child{ border-right: none; }
+  .spec-value{
+    font-family: var(--mono);
+    font-size: 17px;
+    color: var(--ink);
+    display:block;
+  }
+  .spec-label{
+    font-size: 11px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-top: 2px;
+    display:block;
+  }
+
+  .distance-note{
+    margin: 16px 20px 0;
+    font-size: 13px;
+    color: var(--seaweed);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .distance-note::before{
+    content: "";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--seaweed);
+    flex-shrink: 0;
+  }
+
+  .description{
+    padding: 22px 20px 8px;
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.65;
+  }
+  .description h2{
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    margin-bottom: 10px;
+  }
+
+  .map-link{
+    margin: 4px 20px 24px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--ocean);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ocean);
+    padding-bottom: 2px;
+  }
+
+  /* ============ CTA FIXO ============ */
+
+  .cta-bar{
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    max-width: 560px;
+    margin: 0 auto;
+    background: var(--foam);
+    border-top: 1px solid var(--hairline);
+    padding: 12px 20px calc(12px + env(safe-area-inset-bottom));
+    z-index: 10;
+  }
+
+  .cta-button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    background: var(--ocean);
+    color: var(--foam);
+    font-family: var(--body);
+    font-weight: 700;
+    font-size: 15px;
+    padding: 13px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background 0.15s ease;
+  }
+  .cta-button:active{ background: var(--ocean-deep); }
+
+  .cta-button:focus-visible,
+  .map-link:focus-visible{
+    outline: 2px solid var(--clay);
+    outline-offset: 2px;
+  }
+
+  @media (min-width: 561px){
+    .page{ box-shadow: 0 0 40px rgba(15,37,48,0.08); }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ============ GALERIA ============ -->
+  <div class="gallery-wrap">
+    <div class="gallery" id="gallery">
+      <!-- preenchido via JS a partir de PROPERTY_DATA.photos no carregamento -->
+    </div>
+
+    <div class="gallery-tag" id="galleryTag">IM-1007</div>
+    <div class="photo-count" id="photoCount">1 / 3</div>
+
+    <div class="tide-gauge" id="tideGauge">
+      <!-- gerado via JS a partir do número de fotos -->
+    </div>
+  </div>
+
+  <!-- ============ CONTEÚDO ============ -->
+  <div class="content">
+    <div class="eyebrow" id="eyebrow">Casa · Paes Leme</div>
+    <h1 id="address"></h1>
+    <div class="location" id="location">Paes Leme — Imbituba/SC</div>
+    <div class="price" id="price">R$ 743.000</div>
+  </div>
+
+  <div class="specs">
+    <div class="spec">
+      <span class="spec-value" id="specQuartos">3</span>
+      <span class="spec-label">Quartos</span>
+    </div>
+    <div class="spec">
+      <span class="spec-value" id="specArea">260m²</span>
+      <span class="spec-label">Construídos</span>
+    </div>
+    <div class="spec">
+      <span class="spec-value" id="specBanheiros">1</span>
+      <span class="spec-label">Banheiros</span>
+    </div>
+  </div>
+
+  <div class="distance-note" id="highlightNote" style="display:none"></div>
+
+  <div class="description">
+    <h2>Sobre o imóvel</h2>
+    <p id="descricaoText">Casa fictícia para demonstração, com 260 m², ambientes integrados e localização em Paes Leme, Imbituba. [TESTE - fotos ilustrativas de banco de imagens, nao sao fotos reais do imovel; unidade ficticia usada para testar o sistema]</p>
+  </div>
+
+  <a class="map-link" href="#" id="mapLink">Ver localização no mapa →</a>
+
+  <div class="cta-bar">
+    <a class="cta-button" id="whatsappCta" href="#" target="_blank" rel="noopener">
+      Falar sobre este imóvel
+    </a>
+  </div>
+
+</div>
+
+<script>
+  // ===========================================================
+  // BLOCO DE DADOS — o n8n substitui este objeto antes do commit
+  // no GitHub (node "Code in JavaScript"). O JS abaixo usa esses
+  // dados para preencher a pagina em tempo de carregamento.
+  // ============================================================
+  nst PROPERTY_DATA = {"id":"IM-007","title":"IM-007 · Casa em Vila Nova · Imbituba","eyebrow":"Casa · Vila Nova","address":"Rua do Campo, 33","location":"Vila Nova — Imbituba/SC","priceLabel":"R$ 520.000","quartos":"3","areaLabel":"350m²","banheiros":"2","descricao":"Casa aconchegante no bairro Vila Nova, a poucos passos da Praia da Vila. Com 3 quartos e 2 banheiros, área construída de 110m² em um terreno de 350m², é ideal para quem busca tranquilidade e proximidade com o mar. [TEXTO DE TESTE - gerado como placeholder para validação do pipeline]","diferenciais":"","photos":[{"url":"images/IM-007/attQWGH7KLIccBRwz.jpg","alt":"Casa em Vila Nova"},{"url":"images/IM-007/att8sMuDA2HlSttmH.jpg","alt":"Casa em Vila Nova"},{"url":"images/IM-007/attZXbApFFzXt0t6Y.jpg","alt":"Casa em Vila Nova"},{"url":"images/IM-007/attwXwE5KMiaC0NvP.jpg","alt":"Casa em Vila Nova"}],"whatsappNumber":"5548999999999","whatsappMessage":"Ola! Vi o imovel Casa em Vila Nova (IM-007) e quero saber mais.","mapsUrl":"#"};
+     document.getElementById('galleryTag').textContent = PROPERTY_DATA.id || '';
+  document.getElementById('eyebrow').textContent = PROPERTY_DATA.eyebrow;
+  document.getElementById('address').textContent = PROPERTY_DATA.address;
+  document.getElementById('location').textContent = PROPERTY_DATA.location;
+  document.getElementById('price').textContent = PROPERTY_DATA.priceLabel;
+  document.getElementById('specQuartos').textContent = PROPERTY_DATA.quartos;
+  document.getElementById('specArea').textContent = PROPERTY_DATA.areaLabel;
+  document.getElementById('specBanheiros').textContent = PROPERTY_DATA.banheiros;
+  document.getElementById('descricaoText').textContent = PROPERTY_DATA.descricao;
+
+  const highlightEl = document.getElementById('highlightNote');
+  if (PROPERTY_DATA.diferenciais) {
+    highlightEl.textContent = PROPERTY_DATA.diferenciais;
+  } else {
+    highlightEl.style.display = 'none';
+  }
+
+  // -------- monta a galeria a partir das fotos reais --------
+  const galleryEl = document.getElementById('gallery');
+  const photosToRender = PROPERTY_DATA.photos && PROPERTY_DATA.photos.length
+    ? PROPERTY_DATA.photos
+    : [{ url: '', alt: 'Sem foto disponivel' }];
+
+  photosToRender.forEach((photo) => {
+    const slide = document.createElement('div');
+    slide.className = 'gallery-slide';
+    if (photo.url) {
+      const img = document.createElement('img');
+      img.loading = 'lazy';
+      img.src = photo.url;
+      img.alt = photo.alt || '';
+      slide.appendChild(img);
+    } else {
+      slide.classList.add('placeholder');
+      const span = document.createElement('span');
+      span.textContent = photo.alt || 'Sem foto';
+      slide.appendChild(span);
+    }
+    galleryEl.appendChild(slide);
+  });
+
+  // -------- monta a régua de maré conforme o nº real de fotos --------
+  const gauge = document.getElementById('tideGauge');
+  const slides = document.querySelectorAll('.gallery-slide');
+  const total = slides.length;
+
+  slides.forEach((_, i) => {
+    const tick = document.createElement('div');
+    tick.className = 'tide-tick' + (i === 0 ? ' filled active' : '');
+    tick.dataset.index = i;
+    gauge.appendChild(tick);
+  });
+
+  const ticks = gauge.querySelectorAll('.tide-tick');
+  const countEl = document.getElementById('photoCount');
+  countEl.textContent = `1 / ${total}`;
+
+  galleryEl.addEventListener('scroll', () => {
+    const idx = Math.round(galleryEl.scrollLeft / galleryEl.clientWidth);
+    ticks.forEach((t, i) => {
+      t.classList.toggle('filled', i <= idx);
+      t.classList.toggle('active', i === idx);
+    });
+    countEl.textContent = `${idx + 1} / ${total}`;
+  }, { passive: true });
+
+  // -------- CTA do WhatsApp com contexto do imóvel já preenchido --------
+  const cta = document.getElementById('whatsappCta');
+  cta.href = `https://wa.me/${PROPERTY_DATA.whatsappNumber}?text=${encodeURIComponent(PROPERTY_DATA.whatsappMessage)}`;
+
+  // -------- link do mapa --------
+  document.getElementById('mapLink').href = PROPERTY_DATA.mapsUrl;
+</script>
+</body></html>
